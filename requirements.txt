@@ -4,4 +4,12 @@ WTForms
 gunicorn
 requests
 Flask
-flask-bootstrap
+Flask-Bootstrap
+Flask-CKEditor
+Flask-Gravatar
+Flask-Login
+Flask-Migrate
+Flask-SQLAlchemy
+Flask-Script
+Flask-WTF
+Jinja2
