@@ -1,0 +1,65 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/styles/styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400;700&family=Cormorant+Garamond&display=swap" rel="stylesheet">
+    <style>
+        .search-heading {
+            font-family:'Cormorant Garamond',serif;
+            font-size: 40px;
+            color: black
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Cafes in {{ location }}{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+    <div class="container px-4 py-3 my-5 text-center">
+        {% if cafes == [] %}
+        <img class="d-block mx-auto mb-4" src="static/images/geo.svg" alt="" width="72" height="57">
+        <h3 class="search-heading py-2">Sorry, there are no locations in our database in that area.</h3>
+        {% else %}
+        <img class="d-block mx-auto mb-4" src="static/images/geo.svg" alt="" width="72" height="57">
+        <h1 class="py-2 search-heading">{{ location }}</h1>
+        {% endif %}
+    </div>
+
+    <div class="container mt-4">
+
+         <!--    Create Cafe Cards-->
+         <div class="row row-cols-1 row-cols-md-3 g-4">
+             {% for cafe in cafes %}
+                 {% if cafe.location == location %}
+                     <div class="col-md-4 px-4 py-4">
+                        <div class="card">
+                            <img src="{{ cafe.img_url }}" class="card-img-top" alt="Cafe Image">
+                            <div class="card-body">
+                                <h3 class="card-title py-3">{{ cafe.name }}</h3>
+                                <p class="card-text">{{ cafe.location }}</p>
+                                <p class="card-text">Wifi: {{ "Yes" if cafe.has_wifi else "No" }}</p>
+                                <p class="card-text">Coffee Price: {{ cafe.coffee_price }}</p>
+                                <a href="{{ cafe.map_url }}" class="btn btn-lg main-button">View on Map</a>
+                                <a href="{{ url_for('show_cafe', id=cafe.id) }}" class="btn btn-lg btn-outline-dark">More Details</a>
+                            </div>
+                        </div>
+                     </div>
+                 {% endif %}
+             {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+{% endblock %}

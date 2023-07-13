@@ -1,0 +1,37 @@
+{% extends 'bootstrap/base.html' %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/styles/styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400;700&family=Cormorant+Garamond&display=swap" rel="stylesheet">
+    <style>
+        .page-text {
+                font-size: 1.5rem;
+                font-family: 'Arsenal', sans-serif;
+                color: black
+              }
+    </style>
+{% endblock %}
+
+{% block title %}Sign Up{% endblock %}
+
+{% block content %}
+
+{% include 'navbar.html' %}
+
+    <div class="centered-form py-2 page-text">
+        <div class="form-frame form-label">
+            {{ wtf.quick_form(form, form_type="horizontal", button_map={"submit": "my-submit-button"}) }}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+{% endblock %}

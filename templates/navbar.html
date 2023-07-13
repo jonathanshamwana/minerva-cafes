@@ -1,0 +1,25 @@
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary rounded" aria-label="Eleventh navbar example" style="background-color: #27374D;">
+      <div class="container-fluid">
+
+        <div class="collapse navbar-collapse" id="navbarsExample09">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" style="font-size:1.6rem; font-family:'Arsenal',sans-serif;" aria-current="page" href="{{ url_for('home') }}">Home</a>
+            </li>
+            {% if not current_user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link" style="font-size:1.6rem; font-family:'Arsenal',sans-serif;" href="{{ url_for('user_login') }}">Log In</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" style="font-size:1.6rem; font-family:'Arsenal',sans-serif;" href="{{ url_for('create_account') }}">Sign Up</a>
+            </li>
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" style="font-size:1.6rem; font-family:'Arsenal',sans-serif;" href="{{ url_for('log_out') }}">Log Out</a>
+            </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>

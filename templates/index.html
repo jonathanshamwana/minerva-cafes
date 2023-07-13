@@ -1,0 +1,105 @@
+{% extends 'bootstrap/base.html' %}
+
+{% block styles %}
+    {{ super() }}
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="static/styles/styles.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Arsenal:wght@400;700&family=Cormorant+Garamond&display=swap" rel="stylesheet">
+    <style>
+        .card-body p {
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 8px;
+            margin-bottom: 8px;
+        }
+    </style>
+{% endblock %}
+
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+    {% include 'navbar.html' %}
+
+    <!--    Create Bootstrap Hero-->
+    <div class="container px-4 py-5 my-5 text-center">
+        <img class="d-block mx-auto mb-4" src="static/images/coffee-cup.png" alt="" width="72" height="65">
+        <h1 class="homepage-heading text-body-emphasis py-2">Minerva Cafes</h1>
+        {% if current_user.is_authenticated %}
+        <p class="page-text">Hey {{ current_user.name.title() }}! A Minervan lives and dies by the cafe.</p>
+        {% else %}
+        <h3 class="page-text">A Minervan lives and dies by the cafe.</h3>
+        {% endif %}
+        <div class="col-lg-12 pt-3" style="color:black">
+          <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a href="{{ url_for('add_cafe') }}"><button type="button" class="btn main-button hero-button px-4 gap-3">Add a Cafe</button></a>
+          </div>
+        </div>
+        <!-- Search by location -->
+        <div class="col-lg-12 pt-5">
+             <form action="{{ url_for('search_cafes') }}" method="GET">
+                 <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">📍</span>
+                  <input type="text" class="form-control" name="location" placeholder="Search for cafes in a particular area (E.g., Peckham)" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+             </form>
+        </div>
+    </div>
+
+
+     <div class="container mt-4">
+
+         <!--    Create Cafe Cards-->
+         <div class="row row-cols-1 row-cols-md-3 g-4">
+             {% for cafe in cafes %}
+             <div class="col-md-4 px-4 py-4">
+                <div class="card">
+                    <img src="{{ cafe.img_url }}" class="card-img-top" alt="Cafe Image">
+                    <div class="card-body">
+                        <h3 class="card-title py-3">{{ cafe.name }}</h3>
+                        <p class="card-text">{{ cafe.location }}</p>
+                        <p class="card-text">Wifi: {{ "Yes" if cafe.has_wifi else "No" }}</p>
+                        <p class="card-text">Coffee Price: {{ cafe.coffee_price }}</p>
+                        <a href="{{ cafe.map_url }}" class="btn btn-lg main-button">View on Map</a>
+                        <a href="{{ url_for('show_cafe', id=cafe.id) }}" class="btn btn-lg btn-outline-dark">More Details</a>
+                    </div>
+                </div>
+             </div>
+             {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Cafe Pagination">
+            <ul class="pagination justify-content-center mt-4">
+                {% if cafes.has_prev %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('home', page=cafes.prev_num) }}">Previous</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Previous</span></li>
+                {% endif %}
+
+                {% for num in range(1, cafes.pages + 1) %}
+                    {% if num == cafes.page %}
+                    <li class="page-item active" aria-current="page">
+                        <span class="page-link">{{ num }}</span>
+                    </li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="{{ url_for('home', page=num) }}">{{ num }}</a></li>
+                    {% endif %}
+                {% endfor %}
+
+                {% if cafes.has_next %}
+                <li class="page-item"><a class="page-link" href="{{ url_for('home', page=cafes.next_num) }}">Next</a></li>
+                {% else %}
+                <li class="page-item disabled"><span class="page-link">Next</span></li>
+                {% endif %}
+            </ul>
+        </nav>
+
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+{% endblock %}
