@@ -13,3 +13,4 @@ Flask-SQLAlchemy
 Flask-Script
 Flask-WTF
 Jinja2
+email-validator
